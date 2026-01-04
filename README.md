@@ -32,7 +32,7 @@
 ## 📸 Screenshot
 
 <div align="center">
-<img src="docs/dashboard.png" alt="Dashboard" width="80%">
+<img src="docs/dashboard_new.png" alt="Dashboard" width="80%">
 </div>
 
 ---
