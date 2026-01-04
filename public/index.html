@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>// BEDROCK_CMD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="branding">
+                // BEDROCK_CMD<span class="blink">_</span>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="dashboard">[ >_ TERMINAL ]</button>
+                <button class="nav-btn" data-target="settings">[ # PENGATURAN ]</button>
+                <button class="nav-btn" data-target="addons">[ + ADDONS ]</button>
+                <button class="nav-btn" data-target="backups">[ ! BACKUP ]</button>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="page active">
+                <div class="status-bar">
+                    <div class="status-item">
+                        STATUS: <span id="server-status" class="status-offline">[ OFFLINE ]</span>
+                    </div>
+                    <div class="status-item">
+                        CPU: <span id="cpu-usage">0%</span>
+                    </div>
+                    <div class="status-item">
+                        RAM: <span id="ram-usage">0 MB</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="btn-start" class="btn btn-primary">[ INISIASI PROTOKOL ]</button>
+                    <button id="btn-restart" class="btn btn-primary">[ MULAI ULANG ]</button>
+                    <button id="btn-stop" class="btn btn-danger">[ HENTIKAN PAKSA ]</button>
+                </div>
+
+                <!-- Admin Commands -->
+                <div class="admin-panel">
+                    <div class="admin-panel-header">// PERINTAH ADMIN CEPAT</div>
+                    <div class="admin-panel-content">
+                        <!-- Player Management -->
+                        <div class="admin-row">
+                            <input type="text" id="player-name-input" placeholder="Nama Pemain...">
+                            <button class="btn-admin" onclick="adminCommand('op', 'player-name-input')">[ OP ]</button>
+                            <button class="btn-admin" onclick="adminCommand('deop', 'player-name-input')">[ DEOP
+                                ]</button>
+                            <button class="btn-admin" onclick="adminCommand('kick', 'player-name-input')">[ KICK
+                                ]</button>
+                            <button class="btn-admin" onclick="adminCommand('ban', 'player-name-input')">[ BAN
+                                ]</button>
+                            <button class="btn-admin" onclick="adminCommand('pardon', 'player-name-input')">[ UNBAN
+                                ]</button>
+                        </div>
+                        <!-- Gamemode & Time -->
+                        <div class="admin-row">
+                            <select id="gamemode-select">
+                                <option value="survival">SURVIVAL</option>
+                                <option value="creative">CREATIVE</option>
+                                <option value="adventure">ADVENTURE</option>
+                                <option value="spectator">SPECTATOR</option>
+                            </select>
+                            <button class="btn-admin" onclick="gamemodeCommand()">[ GAMEMODE ]</button>
+                            <select id="time-select">
+                                <option value="day">SIANG</option>
+                                <option value="night">MALAM</option>
+                                <option value="noon">TENGAH HARI</option>
+                                <option value="midnight">TENGAH MALAM</option>
+                            </select>
+                            <button class="btn-admin" onclick="timeCommand()">[ WAKTU ]</button>
+                        </div>
+                        <!-- Weather & Difficulty -->
+                        <div class="admin-row">
+                            <select id="weather-select">
+                                <option value="clear">CERAH</option>
+                                <option value="rain">HUJAN</option>
+                                <option value="thunder">BADAI</option>
+                            </select>
+                            <button class="btn-admin" onclick="weatherCommand()">[ CUACA ]</button>
+                            <select id="difficulty-select">
+                                <option value="peaceful">DAMAI</option>
+                                <option value="easy">MUDAH</option>
+                                <option value="normal">NORMAL</option>
+                                <option value="hard">SULIT</option>
+                            </select>
+                            <button class="btn-admin" onclick="difficultyCommand()">[ KESULITAN ]</button>
+                        </div>
+                        <!-- Teleport -->
+                        <div class="admin-row">
+                            <input type="text" id="tp-target" placeholder="Pemain Target...">
+                            <input type="text" id="tp-x" placeholder="X" style="width:60px">
+                            <input type="text" id="tp-y" placeholder="Y" style="width:60px">
+                            <input type="text" id="tp-z" placeholder="Z" style="width:60px">
+                            <button class="btn-admin" onclick="teleportCommand()">[ TELEPORT ]</button>
+                        </div>
+                        <!-- Give Item -->
+                        <div class="admin-row">
+                            <input type="text" id="give-player" placeholder="Pemain...">
+                            <input type="text" id="give-item" placeholder="ID Item (misal: diamond)">
+                            <input type="number" id="give-amount" placeholder="Jumlah" value="1" style="width:80px">
+                            <button class="btn-admin" onclick="giveCommand()">[ BERI ITEM ]</button>
+                        </div>
+                        <!-- Quick Actions -->
+                        <div class="admin-row">
+                            <button class="btn-admin" onclick="quickCommand('list')">[ DAFTAR PEMAIN ]</button>
+                            <button class="btn-admin" onclick="quickCommand('save hold')">[ SIMPAN DUNIA ]</button>
+                            <button class="btn-admin" onclick="quickCommand('kill @e[type=zombie]')">[ BUNUH ZOMBIE
+                                ]</button>
+                            <button class="btn-admin" onclick="quickCommand('gamerule showcoordinates true')">[
+                                KOORDINAT ON ]</button>
+                            <button class="btn-admin" onclick="quickCommand('gamerule keepinventory true')">[ KEEP INV
+                                ON ]</button>
+                        </div>
+                        <!-- More Actions -->
+                        <div class="admin-row">
+                            <button class="btn-admin" onclick="quickCommand('gamerule dodaylightcycle false')">[ BEKUKAN
+                                WAKTU ]</button>
+                            <button class="btn-admin" onclick="quickCommand('gamerule domobspawning false')">[ MOB OFF
+                                ]</button>
+                            <button class="btn-admin" onclick="quickCommand('gamerule domobspawning true')">[ MOB ON
+                                ]</button>
+                            <button class="btn-admin" onclick="quickCommand('effect @a regeneration 60 5')">[ HEAL ALL
+                                ]</button>
+                            <button class="btn-admin" onclick="broadcastPrompt()">[ BROADCAST ]</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terminal">
+                    <div id="terminal-output" class="terminal-output">
+                        <div style="color: #666;">// Menunggu koneksi server...</div>
+                    </div>
+                    <div class="terminal-input-wrapper">
+                        <span>></span>
+                        <input type="text" id="terminal-input" placeholder="masukkan perintah admin...">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="page">
+                <h2>// KONFIGURASI SERVER</h2>
+
+                <!-- Playit.gg Connection Panel -->
+                <div class="info-panel" id="playit-panel">
+                    <div class="info-panel-header">// KONEKSI PLAYIT.GG</div>
+                    <div class="info-panel-content">
+                        <div class="info-row">
+                            <span class="info-label">ALAMAT PLAYIT:</span>
+                            <input type="text" id="playit-address" placeholder="contoh: abc123.craft.playit.gg"
+                                style="flex:1; max-width:300px;">
+                            <button class="btn-copy" onclick="savePlayitAddress()">[ SIMPAN ]</button>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">ALAMAT SERVER:</span>
+                            <span class="info-value" id="playit-display">Belum dikonfigurasi</span>
+                            <button class="btn-copy" onclick="copyToClipboard('playit-display')">[ SALIN ]</button>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">PORT LOKAL:</span>
+                            <span class="info-value" id="server-port-display">19132</span>
+                        </div>
+                        <div class="info-row" style="margin-top:10px; padding-top:10px; border-top:2px solid #000;">
+                            <span style="font-size:0.8rem; color:#228B22;">
+                                ✓ Salin alamat Playit di atas untuk dibagikan ke pemain
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- World Selector -->
+                <div class="world-selector">
+                    <div class="world-selector-header">// PILIH DUNIA AKTIF
+                        <span class="tooltip-icon">i
+                            <span class="tooltip-text">Pilih dunia yang akan dimuat saat server dimulai. Perubahan
+                                memerlukan restart server.</span>
+                        </span>
+                    </div>
+                    <select id="world-select">
+                        <option value="">Memuat daftar dunia...</option>
+                    </select>
+                    <button class="btn" onclick="applyWorldSelection()">[ TERAPKAN DUNIA ]</button>
+                </div>
+
+                <form id="config-form">
+                    <!-- Fields will be injected by JS -->
+                </form>
+                <button id="btn-save-config" class="btn btn-primary">[ SIMPAN KONFIGURASI ]</button>
+            </section>
+
+            <!-- Addons Section -->
+            <section id="addons" class="page">
+                <h2>// MANAJER KONTEN</h2>
+                <div class="addon-upload-area" id="addon-dropzone">
+                    // SERET FILE KE SINI (.MCPACK, .MCADDON, .MCWORLD, .MCTEMPLATE) //
+                    <br><br>
+                    <input type="file" id="addon-file-input" accept=".mcpack,.mcaddon,.mcworld,.mctemplate,.zip" hidden>
+                    <button class="btn" type="button" onclick="document.getElementById('addon-file-input').click()">[
+                        PILIH FILE ]</button>
+                </div>
+                <div id="upload-status"></div>
+
+                <!-- Installed Addons List -->
+                <div
+                    style="display:flex; justify-content:space-between; align-items:center; margin-top:30px; margin-bottom:15px;">
+                    <h3 style="margin:0;">// ADDON TERINSTALL</h3>
+                    <button class="btn" onclick="scanAddons()">[ SCAN ADDON ]</button>
+                </div>
+                <div id="addon-list" class="table-list">
+                    <div class="table-header">
+                        <span style="flex:2">NAMA</span>
+                        <span style="flex:1">TIPE</span>
+                        <span style="flex:1">AKSI</span>
+                    </div>
+                    <!-- Addons will be injected here -->
+                </div>
+            </section>
+
+            <!-- Backups Section -->
+            <section id="backups" class="page">
+                <h2>// SISTEM KEAMANAN DATA</h2>
+                <button id="btn-create-backup" class="btn btn-primary">[ EKSEKUSI PENGAMANAN DATA ]</button>
+                <div id="backup-list" class="table-list">
+                    <div class="table-header">
+                        <span style="flex:2">FILENAME</span>
+                        <span style="flex:1">SIZE</span>
+                        <span style="flex:1">AKSI</span>
+                    </div>
+                    <!-- Backup items will be injected by JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Uploaded files
+uploads/
+
+# Server files (user should download separately)
+server/bedrock_server.exe
+server/bedrock_server_how_to.html
+server/release-notes.txt
+server/worlds/
+server/backups/*.zip
+server/behavior_packs/
+server/resource_packs/
+server/definitions/
+server/config/
+server/texts/
+server/*.json
+server/*.dat
+server/*.txt
+server/*.jpeg
+server/*.wlist
+
+# Keep server directory structure
+!server/
+!server/.gitkeep
+
+# Logs
+*.log
+ContentLog*/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
